@@ -1,0 +1,167 @@
+*{
+  padding:  0px ;
+  margin : 0px ;
+  box-sizing : border-box ;
+}
+:root {
+  --main-c : rgb(10,10,10) ;
+  --second-c : rgb(6,6,6) ;
+  --third-c : rgb(8,8,8) ;
+  --background : #000 ;
+  --text : rgb(100,100,100) ;
+  --txt : rgb(60,60,60)
+}
+body {
+  height : 100vh ;
+  background : var(--main-c)
+}
+main {
+  height : 100% ;
+}
+body , div , main , p , label{
+  width : 100% ;
+  display : flex ;
+  flex-direction : column ;
+  align-items : center ;
+  justify-content: center ;
+}
+p{
+  font-size : 15px ;
+  font-family : monospace ;
+  font-weight : 100 ;
+  color : var(--text) ;
+  transition-duration: .3s ;
+}
+p:hover {
+  cursor : pointer ;
+}
+/* */
+
+#display {
+  height : 80vh ;
+  width : 90% ;
+  transform : translateY(-5%) ;
+}
+#display canvas {
+  height : 93% ;
+  width : 100% ;
+  background : var(--background) ;
+  
+}
+
+/* */
+
+#menu {
+  position : absolute ; 
+  width : 20em ;
+  height : 50vh ;
+  background : var(--main-c) ;
+  justify-content: flex-start ;
+  border : 1px solid var(--background)
+}
+#menu div:nth-child(1){
+  height : 10% ;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--second-c);
+}
+#menu div:nth-child(1):hover {
+  cursor : move 
+}
+#menu div:nth-child(1) > div {
+  height : 100% ;
+  max-width : 60% ;
+  flex-direction : row ;
+  border : none
+}
+#menu div:nth-child(1) > div p{
+  height : 100% ;
+}
+#menu div:nth-child(1) > div p:hover {
+  color : #fff ;
+}
+#menu div:nth-child(2){
+  justify-content: flex-start ;
+  max-height : 90% ;
+  overflow-y : scroll ;
+}
+
+#menu div:nth-child(2) > p:not(#menu div:nth-child(2) > p:nth-child(1)){
+  min-height : 8vh ;
+  border-top : 1px solid var(--second-c) ;
+}
+#menu div:nth-child(2) > p:not(#menu div:nth-child(2) > p:nth-child(1)):hover{
+  background : rgba(30,30,30,0.1)
+}
+#menu div:nth-child(2) > p:nth-child(1){
+  min-height : 10vh ;
+  color : var(--txt) ;
+}
+#menu div:nth-child(2) > p:nth-child(1):hover{
+  background : unset ;
+  cursor : move 
+}
+/* */
+
+label {
+  min-height : 6vh ;
+  width : 90% ;
+  border : 1px solid var(--second-c) ;
+  margin : 1em 0 ;
+}
+#input {
+  transform : translateX(-50%) ;
+  display : none ;
+}
+/* */
+
+#audio_player {
+  height : 7% ;
+  transition-duration: 2s ;
+}
+
+#audio_player audio {
+  position : absolute ;
+  display : none ;
+}
+#audio_player > div {
+  height : 100% ;
+  width : 80% ;
+  flex-direction : row ;
+  justify-content: space-around ;
+}
+#audio_player > div > p {
+  width : 5em ;
+  height : 100% ;
+  font-size: 11px ;
+  color : var(--txt)
+}
+#audio_player > div > p:hover {
+  color : var(--text)
+}
+#audio_player > div > .s_track {
+  width : 60% ;
+}
+#audio_player > div > .s_track ,
+#audio_player > div > .v_track {
+  height : .7em ;
+  border : 1px solid var(--third-c) ;
+  align-items: flex-start ;
+  background : var(--third-c)
+}
+#audio_player > div > .v_track {
+  width : 20% ;
+  height : 1px ;
+  border-top : none ;
+}
+#audio_player > div > .s_track > div {
+  height : 100% ;
+  background : var(--main-c) ;
+  border-right : 3px solid var(--txt) ;
+  transition-duration : .1s ;
+}
+#audio_player > div > .v_track > div{
+  position: absolute ;
+  width : 5px ;
+  height : .8em ;
+  background : var(--txt) ;
+}
