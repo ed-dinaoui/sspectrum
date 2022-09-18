@@ -136,6 +136,7 @@ label {
   width : 5em ;
   height : 100% ;
   font-size: 11px ;
+  font-weight : 900 ;
   color : var(--txt)
 }
 #audio_player > div > p:hover {
@@ -143,24 +144,26 @@ label {
 }
 #audio_player > div > .s_track {
   width : 60% ;
+  align-items: flex-start ;
 }
 #audio_player > div > .s_track ,
 #audio_player > div > .v_track {
   height : .7em ;
   border : 1px solid var(--third-c) ;
-  align-items: flex-start ;
   background : var(--third-c)
 }
 #audio_player > div > .v_track {
   width : 20% ;
   height : 1px ;
   border-top : none ;
+  align-items: flex-end ;
 }
 #audio_player > div > .s_track > div {
   height : 100% ;
   background : var(--main-c) ;
   border-right : 3px solid var(--txt) ;
   transition-duration : .1s ;
+  width : 0% ;
 }
 #audio_player > div > .v_track > div{
   position: absolute ;

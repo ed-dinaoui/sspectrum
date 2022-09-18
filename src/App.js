@@ -10,13 +10,14 @@ var audioMotion ;
 //
 /// AUDIO PLAYER
 
-var v_track, audio;
+var v_track, audio , set_def_vol ;
 
 function adjust_volume(e) {
   e.preventDefault();
   let pos_3 = e.clientX;
   let le = v_track.parentNode.offsetLeft;
   let le_wi = parseFloat(getComputedStyle(v_track.parentNode).width);
+  set_def_vol = le + le_wi ;
 
   document.onmouseup = () => {
     document.onmouseup = null;
@@ -32,7 +33,7 @@ function adjust_volume(e) {
     if (lef <= le) {
       lef = le;
     } else if (lef >= le + le_wi) {
-      lef = le + le_wi;
+      lef = set_def_vol ;
     }
     $(v_track).css('left', `${lef}px`);
     audio.volume = ((lef - le) / le_wi) * 1;
@@ -52,13 +53,12 @@ function Play_btn() {
   };
   return <p onClick={click}>{play}</p>;
 }
-
+const time_bar = () => {
+  let s_tp = (audio.currentTime / audio.duration) * 100;
+  $('.s_track > div').css('width', s_tp.toFixed(1) + '%');
+};
 function AudioPlayer() {
   var song_track;
-  const time_bar = () => {
-    let s_tp = (audio.currentTime / audio.duration) * 100;
-    $('.s_track > div').css('width', s_tp.toFixed(1) + '%');
-  };
   useEffect(() => {
     v_track = document.querySelector('.v_track > div');
     audio = document.getElementById('audio');
@@ -69,10 +69,12 @@ function AudioPlayer() {
         id="audio"
         src={default_song}
         onPlay={() => {
-          song_track = setInterval(time_bar, 500);
+          $('#audio_player > div > p').text('ll') ;
+          song_track = setInterval(time_bar, 500) ;
         }}
         onPause={() => {
-          window.clearInterval(song_track);
+          $('#audio_player > div > p').text('l>') ;
+          window.clearInterval(song_track) ;
         }}
       ></audio>
       <div>
@@ -153,8 +155,8 @@ const song_upload = (e , call) => {
   var target = e.currentTarget ;
   var file = target.files[0] ;
   var reader = new FileReader() ;
-  let nam_e = target.value ;
-  //target.value.split("fakepath")[1].slice(1,this.length).split('.m')[0]
+  var nam_e = target.value.split("fakepath\\")[1].split('.m')[0] ;
+  
 
   if(target.files && file) {
     var reader = new FileReader ;
@@ -232,9 +234,7 @@ function Menu_content(props){
           return obj.name === e.currentTarget.textContent ;
         })
         audio.src = aa.src ;
-        audio.oncanplay = (e) => {
-          e.target.play()
-        }
+        audio.play() ;
       })
     }else {
       $('.t_p').click(props.click) ;
@@ -275,7 +275,6 @@ function Menu(props){
   const [ w_m , set_w_m ] = useState(op_s[0]) ;
   useEffect(()=>{
     menu = document.getElementById('menu') ;
-    localStorage.clear() ;
   },[])
   const head_ps_click = (e) => {
     set_w_m(
@@ -310,9 +309,10 @@ function Container() {
     let ac = options.find( obj => {
       return obj.name === e.target.textContent ;
     } )
-    audioMotion.setOptions(default_options)
+    if ( ac.id === 'p' ){
+      audioMotion.setOptions(default_options)
+    }
     audioMotion.setOptions(ac.option) ;
-    console.log(ac.option)
   }
   useEffect(()=> {
     audioMotion = new audioMotionAnalyzer(
