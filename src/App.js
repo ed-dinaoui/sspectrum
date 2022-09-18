@@ -3,6 +3,7 @@ import './main.css';
 import audioMotionAnalyzer from './lib/audioMotion-analyzer';
 import $ from 'jquery';
 import options , { gradients , default_options } from './lib/options' ;
+import default_song from './music/aether-illusion.mp3' ;
 
 var audioMotion ;
 
@@ -66,7 +67,7 @@ function AudioPlayer() {
     <div id="audio_player">
       <audio
         id="audio"
-        src="./music/aether-illusion.mp3"
+        src={default_song}
         onPlay={() => {
           song_track = setInterval(time_bar, 500);
         }}
@@ -97,7 +98,7 @@ var songs = [
   {
     id : 0 ,
     name : 'aether-illusion' ,
-    src : './music/aether-illusion.mp3'
+    src : default_song
   } ,
 ]
 
