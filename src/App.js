@@ -66,7 +66,7 @@ function AudioPlayer() {
     <div id="audio_player">
       <audio
         id="audio"
-        src=""
+        src="./music/aether-illusion.mp3"
         onPlay={() => {
           song_track = setInterval(time_bar, 500);
         }}
@@ -103,13 +103,13 @@ var songs = [
 
 //
 //// in case of storing audio hashed srcs
-var st = '';
 const divide = (nam , str) => {
   for (let i = 0 ; i < str.length ; i += 200){
     localStorage.setItem( nam + '_' + i , str.slice( i , i + 200 ) )
   }
 }
 const count_to_it = ( nam , len ) => {
+  var st = '' ;
   for ( let i = 0 ; i < len ; i += 200 ) {
     let ar = localStorage.getItem( nam + '_' + i ) ;
     if( ar.length == 200 && ar != null ) {
@@ -229,8 +229,10 @@ function Menu_content(props){
         let aa = songs.find(obj => {
           return obj.name === e.currentTarget.textContent ;
         })
-
-        // add src to audio
+        audio.src = aa.src ;
+        audio.oncanplay = (e) => {
+          e.target.play()
+        }
       })
     }else {
       $('.t_p').click(props.click) ;
@@ -312,7 +314,7 @@ function Container() {
   }
   useEffect(()=> {
     audioMotion = new audioMotionAnalyzer(
-      document.getElementById('canvas') ,
+      document.getElementById('ca_ntainer') ,
       {
         source : audio , 
       }
@@ -321,7 +323,7 @@ function Container() {
   } , [])
   return (
     <div id="display">
-      <canvas id='canvas' > Chick_Something </canvas>
+      <div id='ca_ntainer' ></div>
       <AudioPlayer />
       <Menu click={handle_click} />
     </div>

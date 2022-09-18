@@ -52,7 +52,7 @@ export const gradients = [
 export const default_options = {
   alphaBars: false ,
   barSpace: 1 , 
-  showBgColor: true ,
+  showBgColor: false ,
   overlay: true ,
   bgAlpha: .2 ,
   fftSize: 256 ,

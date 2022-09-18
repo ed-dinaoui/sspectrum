@@ -42,11 +42,14 @@ p:hover {
   width : 90% ;
   transform : translateY(-5%) ;
 }
-#display canvas {
+#display #ca_ntainer {
   height : 93% ;
   width : 100% ;
-  background : var(--background) ;
-  
+  display: flex ;
+  align-items: unset ;
+  justify-content: unset ;
+  flex-direction: unset ;
+  background-color : var(--background) ;
 }
 
 /* */
