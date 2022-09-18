@@ -97,7 +97,7 @@ var songs = [
   {
     id : 0 ,
     name : 'aether-illusion' ,
-    src : '//'
+    src : './music/aether-illusion.mp3'
   } ,
 ]
 
