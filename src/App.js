@@ -153,7 +153,8 @@ const song_upload = (e , call) => {
   var target = e.currentTarget ;
   var file = target.files[0] ;
   var reader = new FileReader() ;
-  let nam_e = target.value.split("fakepath")[1].slice(1,this.length).split('.m')[0];
+  let nam_e = target.value ;
+  //target.value.split("fakepath")[1].slice(1,this.length).split('.m')[0]
 
   if(target.files && file) {
     var reader = new FileReader ;
