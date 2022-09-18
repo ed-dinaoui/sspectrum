@@ -4,32 +4,32 @@ export const gradients = [
     dir:'v',
     colorStops: [
       'rgb(200,200,200)',
-      '#000',
+      'rgb(200,200,200,0)',
     ],
   },{
     dir:'v',
     colorStops:[
       'brown',
-      '#000'
+      'rgba(165, 42, 42, 0)'
     ]
   },{
     dir:'v',
     colorStops:[
       '#4361ee',
-      '#000'
+      'rgba(67,97,238,0)'
     ]
   },{
     dir:'v',
     colorStops:[
       "#D4A373",
       "#D4A373",
-      '#000'
+      'rgba(212,263,115,0)'
     ]
   },{
     dir:'v',
     colorStops:[
       '#7209b7',
-      '#000'
+      'rgba(114,9,183,0)'
     ]
   },{
     dir:'v',

@@ -10,9 +10,10 @@ var audioMotion ;
 //
 /// AUDIO PLAYER
 
-var v_track, audio , set_def_vol ;
+var v_track, audio ;
 
 function adjust_volume(e) {
+  var set_def_vol ;
   e.preventDefault();
   let pos_3 = e.clientX;
   let le = v_track.parentNode.offsetLeft;
@@ -39,29 +40,34 @@ function adjust_volume(e) {
     audio.volume = ((lef - le) / le_wi) * 1;
   };
 }
-
+var p_l = 'l>' , p_a = 'll' ;
 function Play_btn() {
-  const [play, is_playing] = useState('l>');
+  const [play, is_playing] = useState(p_l);
   const click = () => {
-    if (play === 'l>') {
-      is_playing('ll');
+    if (play === p_l) {
+      is_playing(p_a);
       audio.play();
     } else {
-      is_playing('l>');
+      is_playing(p_l);
       audio.pause();
     }
   };
   return <p onClick={click}>{play}</p>;
+}
+const get_elem = (el) => {
+  let elem = document.querySelector(el) ;
+  return elem
 }
 const time_bar = () => {
   let s_tp = (audio.currentTime / audio.duration) * 100;
   $('.s_track > div').css('width', s_tp.toFixed(1) + '%');
 };
 function AudioPlayer() {
-  var song_track;
+  var song_track , audio_btn ;
   useEffect(() => {
-    v_track = document.querySelector('.v_track > div');
-    audio = document.getElementById('audio');
+    v_track = get_elem('.v_track > div');
+    audio = get_elem('#audio');
+    audio_btn = get_elem('#audio_player > div > p')
   }, []);
   return (
     <div id="audio_player">
@@ -69,11 +75,11 @@ function AudioPlayer() {
         id="audio"
         src={default_song}
         onPlay={() => {
-          $('#audio_player > div > p').text('ll') ;
+          $(audio_btn).text(p_a) ;
           song_track = setInterval(time_bar, 500) ;
         }}
         onPause={() => {
-          $('#audio_player > div > p').text('l>') ;
+          $(audio_btn).text(p_l) ;
           window.clearInterval(song_track) ;
         }}
       ></audio>
@@ -99,13 +105,14 @@ var pos_1, pos_2, pos_3, pos_4;
 var songs = [
   {
     id : 0 ,
-    name : 'aether-illusion' ,
+    name : 'Aether Illusion' ,
     src : default_song
   } ,
 ]
 
 //
-//// in case of storing audio hashed srcs
+////
+////// in case of storing audio srcs
 const divide = (nam , str) => {
   for (let i = 0 ; i < str.length ; i += 200){
     localStorage.setItem( nam + '_' + i , str.slice( i , i + 200 ) )
@@ -121,6 +128,7 @@ const count_to_it = ( nam , len ) => {
   }
   return st
 }
+//////
 ////
 //
 
@@ -274,7 +282,7 @@ const op_s = [
 function Menu(props){
   const [ w_m , set_w_m ] = useState(op_s[0]) ;
   useEffect(()=>{
-    menu = document.getElementById('menu') ;
+    menu = get_elem('#menu') ;
   },[])
   const head_ps_click = (e) => {
     set_w_m(
@@ -305,18 +313,22 @@ function reg_gr () {
 /// MAIN
 
 function Container() {
+  var sec_ac = {} ;
   function handle_click(e) {
     let ac = options.find( obj => {
       return obj.name === e.target.textContent ;
     } )
     if ( ac.id === 'p' ){
-      audioMotion.setOptions(default_options)
+      audioMotion.setOptions(Object.assign(default_options , sec_ac)) ;
     }
     audioMotion.setOptions(ac.option) ;
+    if ( ac.option.gradient !== undefined ){
+      sec_ac.gradient = ac.option.gradient
+    }
   }
   useEffect(()=> {
     audioMotion = new audioMotionAnalyzer(
-      document.getElementById('ca_ntainer') ,
+      get_elem('#ca_ntainer') ,
       {
         source : audio , 
       }
