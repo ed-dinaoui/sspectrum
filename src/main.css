@@ -4,16 +4,17 @@
   box-sizing : border-box ;
 }
 :root {
-  --main-c : rgb(10,10,10) ;
-  --second-c : rgb(6,6,6) ;
-  --third-c : rgb(8,8,8) ;
-  --background : #000 ;
-  --text : rgb(100,100,100) ;
-  --txt : rgb(60,60,60)
+  --main-c : #343a40 ;
+  --second-c : #495057 ;
+  --third-c : #495057 ;
+  --background : #212529 ;
+  --text : #adb5bd ;
+  --txt : #495057 ;
 }
 body {
   height : 100vh ;
-  background : var(--main-c)
+  background : var(--main-c) ;
+  transition-duration: .2s ;
 }
 main {
   height : 100% ;
