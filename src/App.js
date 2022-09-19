@@ -333,63 +333,70 @@ function reg_gr () {
 //
 /// MOBILE
 
-function full_screen() {
-  var ele = document.getElementById('display') ;
-  if ( ele.requestFullscreen ) {
-    ele.requestFullscreen().then( res => {
-      to_land_scape()
-    } , err => {
-      console.log('fullScreen denied')
-    } )
-  } else if ( ele.mozRequestFullScreen ) {
-    ele.mozRequestFullScreen().then( res => {
-      to_land_scape()
-    } , err => {
-      console.log('fullscreen denied')
-    } )
-  } else if ( ele.webkitRequestFullscreen ) {
-    ele.webkitRequestFullScreen().then( res => {
-      to_land_scape()
-    } , err => {
-      console.log('fullscreen denied')
-    } )
-  } else if ( ele.msRequestFullscreen ) {
-    ele.msRequestFullscreen().then( res => {
-      to_land_scape()
-    } , err => {
-      console.log('fullscreen denied')
-    } )
-  }
-}
+function Mobile_notif(){
+  const [ first_tab , is_first_tab ] = useState(true) ;
+  const [ is_vis , set_is_vis ] = useState(true) ;
 
-function to_land_scape() {
-  screen.lockOrientationUniversal = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation ;
-  if( screen.lockOrientationUniversal('landscape-primary') ){
-    console.log('done')
+  const set_direct_landscape = () => {
+    screen.orientation.lock('landscape').then(res => {
+      ori_is_set() ;
+    } , err => {
+      set_indirect_landscape()
+    })
   }
-}
+  
+  const indi_ori_is_set = () => {
+    window.clearInterval(inter_v) ;
+    ori_is_set()
+  }
+  
+  const ori_is_set = () => {
+    set_is_vis(false);
+  }
+  
+  var inter_v ;
+  const set_indirect_landscape = () => {
+    inter_v = setInterval( () => {
+      if ( window.innerWidth > window.innerHeight ) {
+        indi_ori_is_set() ;
+      }
+    } , 5000)
+  }
 
-function land_scape() {
-  let screen_ori = window.orientation ;
-  switch (screen_ori) {
-    case 0 : full_screen() ;
-    break ;
-    case 90 : console.log('hallaluha') ;
-    break ;
-    case 180 : full_screen() ;
-    break ;
-    case 270 : full_screen()
-    break ;
+  function full_screen () {
+    if ( !document.fullscreenElement ){
+      let elem = get_elem('#display') ;
+      let ful_l = elem.mozRequestFullScreen || elem.requestFullscreen || elem.webkitRequestFullscreen || elem.msRequestFullScreen ;
+      ful_l.call(elem).then( res => {
+        is_first_tab(false) ;
+        set_direct_landscape() ;
+      } , err => {
+        set_is_vis(true)
+      } )
+    }
   }
+  
+
+  return is_vis ? 
+      <div id='mobile_notif' >
+        { first_tab ? 
+          (<div>
+            <p>better go full screen</p>
+            <button onClick={full_screen} >Full Screen </button>
+          </div>) : 
+          (<div>
+            <p> rotate your trash 90deg </p>
+          </div>)
+        }
+      </div> 
+    : 
+    <div/>
 }
 
 //
 /// MAIN
 
 function Container() {
-  if( navigator.userAgent.toLowerCase().match(/mobile/i) ) {
-    window.addEventListener('orientationchange', land_scape)
-  }
   var sec_ac = {} ;
   function handle_click(e) {
     let ac = options.find( obj => {
@@ -405,6 +412,7 @@ function Container() {
   }
   useEffect(()=> {
     document.title = 'Sspectrum' ;
+    
     audioMotion = new audioMotionAnalyzer(
       get_elem('#ca_ntainer') ,
       {
@@ -418,6 +426,7 @@ function Container() {
       <div id='ca_ntainer' ></div>
       <AudioPlayer />
       <Menu click={handle_click} />
+      { navigator.userAgent.toLowerCase().match(/mobile/i) ? <Mobile_notif /> : <div/> }
     </div>
   );
 }
