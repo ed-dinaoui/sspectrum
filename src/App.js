@@ -393,7 +393,7 @@ function Mobile_notif(){
             <button onClick={full_screen} >Full Screen</button>
           </div>) : 
           (<div>
-            <p> Rotate your Device 90deg for Best Perfomance </p>
+            <p className='rot_p' > Rotate your for Best Perfomance </p>
           </div>)
         }
       </div> 
