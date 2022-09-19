@@ -358,7 +358,8 @@ function Mobile_notif(){
     set_is_vis(false) ;
     screen.orientation.onchange = () => {
       set_is_vis(true) ;
-      set_direct_landscape()
+      set_direct_landscape() ;
+      full_screen()
     } ;
   }
   
@@ -393,7 +394,7 @@ function Mobile_notif(){
             <button onClick={full_screen} >Full Screen</button>
           </div>) : 
           (<div>
-            <p className='rot_p' > Rotate your for Best Perfomance </p>
+            <p className='rot_p' > Rotate your device for Best Perfomance </p>
           </div>)
         }
       </div> 
