@@ -3,7 +3,7 @@ import './main.css';
 import audioMotionAnalyzer from './lib/audioMotion-analyzer';
 import $ from 'jquery';
 import options , { gradients , default_options , themes , theme_properties } from './lib/options' ;
-import default_song from './music/aether-illusion.mp3' ;
+//import default_song from './music/aether-illusion.mp3' ;
 
 var audioMotion ;
 
@@ -73,7 +73,7 @@ function AudioPlayer() {
     <div id="audio_player">
       <audio
         id="audio"
-        src={default_song}
+        src={'default_song'}
         onPlay={() => {
           $(audio_btn).text(p_a) ;
           song_track = setInterval(time_bar, 500) ;
@@ -106,7 +106,7 @@ var songs = [
   {
     id : 0 ,
     name : 'Aether Illusion' ,
-    src : default_song
+    src : 'default_song'
   } ,
 ]
 
@@ -333,17 +333,53 @@ function reg_gr () {
 //
 /// MOBILE
 
-function full_screen(el) {
-  var rfs = el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-  rfs.call(el)
+function full_screen() {
+  var ele = document.getElementById('display') ;
+  if ( ele.requestFullscreen ) {
+    ele.requestFullscreen().then( res => {
+      to_land_scape()
+    } , err => {
+      console.log('fullScreen denied')
+    } )
+  } else if ( ele.mozRequestFullScreen ) {
+    ele.mozRequestFullScreen().then( res => {
+      to_land_scape()
+    } , err => {
+      console.log('fullscreen denied')
+    } )
+  } else if ( ele.webkitRequestFullscreen ) {
+    ele.webkitRequestFullScreen().then( res => {
+      to_land_scape()
+    } , err => {
+      console.log('fullscreen denied')
+    } )
+  } else if ( ele.msRequestFullscreen ) {
+    ele.msRequestFullscreen().then( res => {
+      to_land_scape()
+    } , err => {
+      console.log('fullscreen denied')
+    } )
+  }
 }
 
-function is_mobile(){
-  if( navigator.userAgent.toLowerCase().match(/mobile/i) ) {
-    document.onload = () => {
-      full_screen(document.getElementById('display')) ;
-      screen.orientation.lock('landscape')
-    }
+function to_land_scape() {
+  screen.lockOrientationUniversal = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation ;
+  if( screen.lockOrientationUniversal('landscape-primary') ){
+    console.log('done')
+  }
+}
+
+function land_scape() {
+  let screen_ori = window.orientation ;
+  switch (screen_ori) {
+    case 0 : full_screen() ;
+    break ;
+    case 90 : console.log('hallaluha') ;
+    break ;
+    case 180 : full_screen() ;
+    break ;
+    case 270 : full_screen()
+
   }
 }
 
@@ -351,6 +387,9 @@ function is_mobile(){
 /// MAIN
 
 function Container() {
+  if( navigator.userAgent.toLowerCase().match(/mobile/i) ) {
+    document.onload = land_scape ;
+  }
   var sec_ac = {} ;
   function handle_click(e) {
     let ac = options.find( obj => {
@@ -366,7 +405,6 @@ function Container() {
   }
   useEffect(()=> {
     document.title = 'Sspectrum' ;
-    is_mobile() ;
     audioMotion = new audioMotionAnalyzer(
       get_elem('#ca_ntainer') ,
       {
