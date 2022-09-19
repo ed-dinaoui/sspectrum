@@ -129,7 +129,7 @@ var options = [
   },
   {
     id : 'c' ,
-    name: 'default' ,
+    name: 'default c' ,
     option : {
       gradient : 'gra_0'
     }
@@ -197,6 +197,42 @@ var options = [
       mirror : 1
     }
   } ,
+]
+
+export const theme_properties = [
+  'main-c' ,
+  'second-c' ,
+  'third-c' ,
+  'background' ,
+  'text' ,
+  'txt'
+]
+
+export const themes = [
+  [
+    'rgb(10,10,10)' ,
+    'rgb(6,6,6)' ,
+    'rgb(8,8,8)' ,
+    '#000' ,
+    'rgb(100,100,100)' ,
+    'rgb(60,60,60)'
+  ] ,
+  [
+    '#fff' ,
+    'rgb(6,6,6)' ,
+    'rgb(8,8,8)' ,
+    '#000' ,
+    'rgb(100,100,100)' ,
+    'rgb(60,60,60)'
+  ] ,
+  [
+    'red' ,
+    'rgb(6,6,6)' ,
+    'rgb(8,8,8)' ,
+    '#000' ,
+    'rgb(100,100,100)' ,
+    'rgb(60,60,60)'
+  ] ,
 ]
 
 export default options ;

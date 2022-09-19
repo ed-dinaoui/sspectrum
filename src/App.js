@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './main.css';
 import audioMotionAnalyzer from './lib/audioMotion-analyzer';
 import $ from 'jquery';
-import options , { gradients , default_options } from './lib/options' ;
-import default_song from './music/aether-illusion.mp3' ;
+import options , { gradients , default_options , themes , theme_properties } from './lib/options' ;
+//import default_song from './music/aether-illusion.mp3' ;
 
 var audioMotion ;
 
@@ -73,7 +73,7 @@ function AudioPlayer() {
     <div id="audio_player">
       <audio
         id="audio"
-        src={default_song}
+        src={'default_song'}
         onPlay={() => {
           $(audio_btn).text(p_a) ;
           song_track = setInterval(time_bar, 500) ;
@@ -99,14 +99,14 @@ function AudioPlayer() {
 //
 /// MENU
 
-var menu ;
+var menu , css_var_sty ;
 var pos_1, pos_2, pos_3, pos_4;
 
 var songs = [
   {
     id : 0 ,
     name : 'Aether Illusion' ,
-    src : default_song
+    src : 'default_song'
   } ,
 ]
 
@@ -218,6 +218,7 @@ function Menu_head(props) {
         <p>p.</p>
         <p>c.</p>
         <p>m.</p>
+        <p>t.</p>
       </div>
     </div>
   )
@@ -255,6 +256,7 @@ function Menu_content(props){
     </div>
   )
 }
+
 const op_s = [
   {
     id  : 's.' ,
@@ -278,18 +280,36 @@ const op_s = [
     els : set_name('m')
   } ,
 ]
+let which_theme = 0 ;
+
+const set_theme = () => {
+  which_theme++ ;
+  if( which_theme >= themes.length ){
+    which_theme = 0 ;
+  }
+  for ( let i = 0 ; i < themes[which_theme].length ; i++ ){
+    css_var_sty.style.setProperty( '--' + theme_properties[i] , themes[which_theme][i] ) ;
+  }
+}
+
 
 function Menu(props){
   const [ w_m , set_w_m ] = useState(op_s[0]) ;
   useEffect(()=>{
     menu = get_elem('#menu') ;
+    css_var_sty = document.querySelector(':root') ;
   },[])
   const head_ps_click = (e) => {
-    set_w_m(
-      op_s.find(obj => {
-        return obj.id === e.currentTarget.textContent
-      })
-    );
+    let cur_txt = e.currentTarget.textContent ;
+    if ( cur_txt === 't.' ) {
+      set_theme()
+    } else {
+      set_w_m(
+        op_s.find(obj => {
+          return obj.id === cur_txt
+        })
+      );
+    }
   }
   return (
     <div id='menu'>
