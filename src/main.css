@@ -60,7 +60,7 @@ p:hover {
   height : 50vh ;
   background : var(--main-c) ;
   justify-content: flex-start ;
-  border : 1px solid var(--background)
+  border : 1px solid var(--second-c)
 }
 #menu div:nth-child(1){
   height : 10% ;
