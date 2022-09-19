@@ -338,7 +338,7 @@ function Mobile_notif(){
   const [ is_vis , set_is_vis ] = useState(true) ;
 
   const set_direct_landscape = () => {
-    if ( screen.orientation.type.split(0 , 1) === 'p' ) {
+    if ( screen.orientation.type.slice(0 , 1) === 'p' ) {
       screen.orientation.lock('landscape').then(res => {
         ori_is_set() ;
       } , err => {
