@@ -338,11 +338,15 @@ function Mobile_notif(){
   const [ is_vis , set_is_vis ] = useState(true) ;
 
   const set_direct_landscape = () => {
-    screen.orientation.lock('landscape').then(res => {
-      ori_is_set() ;
-    } , err => {
-      set_indirect_landscape()
-    })
+    if ( screen.orientation.type.split(0 , 1) === 'p' ) {
+      screen.orientation.lock('landscape').then(res => {
+        ori_is_set() ;
+      } , err => {
+        set_indirect_landscape()
+      })
+    }else {
+      set_is_vis(false)
+    }
   }
   
   const indi_ori_is_set = () => {
@@ -351,7 +355,11 @@ function Mobile_notif(){
   }
   
   const ori_is_set = () => {
-    set_is_vis(false);
+    set_is_vis(false) ;
+    screen.orientation.onchange = () => {
+      set_is_vis(true) ;
+      set_direct_landscape()
+    } ;
   }
   
   var inter_v ;
@@ -381,11 +389,11 @@ function Mobile_notif(){
       <div id='mobile_notif' >
         { first_tab ? 
           (<div>
-            <p>better go full screen</p>
-            <button onClick={full_screen} >Full Screen </button>
+            <p>Go Full Screen for better Experience</p>
+            <button onClick={full_screen} >Full Screen</button>
           </div>) : 
           (<div>
-            <p> rotate your trash 90deg </p>
+            <p> Rotate your Device 90deg for Best Perfomance </p>
           </div>)
         }
       </div> 
