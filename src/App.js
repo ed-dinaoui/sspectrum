@@ -243,6 +243,7 @@ function Menu_content(props){
           return obj.name === e.currentTarget.textContent ;
         })
         audio.src = aa.src ;
+        document.title =  "Sspectrum - "+ aa.name ;
         audio.play() ;
       })
     }else {
@@ -347,6 +348,8 @@ function Container() {
     }
   }
   useEffect(()=> {
+    document.title = 'Sspectrum' ;
+
     audioMotion = new audioMotionAnalyzer(
       get_elem('#ca_ntainer') ,
       {
