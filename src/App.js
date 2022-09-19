@@ -379,7 +379,7 @@ function land_scape() {
     case 180 : full_screen() ;
     break ;
     case 270 : full_screen()
-
+    break ;
   }
 }
 
@@ -388,7 +388,7 @@ function land_scape() {
 
 function Container() {
   if( navigator.userAgent.toLowerCase().match(/mobile/i) ) {
-    document.onload = land_scape ;
+    window.addEventListener('orientationchange', land_scape)
   }
   var sec_ac = {} ;
   function handle_click(e) {
