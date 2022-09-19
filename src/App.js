@@ -333,10 +333,17 @@ function reg_gr () {
 //
 /// MOBILE
 
+function full_screen(el) {
+  var rfs = el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+  rfs.call(el)
+}
+
 function is_mobile(){
   if( navigator.userAgent.toLowerCase().match(/mobile/i) ) {
-    document.body.requestFullscreen() ;
-    screen.orientation.lock('landscape')
+    document.onload = () => {
+      full_screen(document.getElementById('display')) ;
+      screen.orientation.lock('landscape')
+    }
   }
 }
 
