@@ -16,6 +16,11 @@ body {
   background : var(--main-c) ;
   transition-duration: .2s ;
 }
+@media only screen and (max-width : 900px){
+  body {
+    transform : rotate(90deg)
+  }
+}
 main {
   height : 100% ;
 }
@@ -36,12 +41,25 @@ p{
 p:hover {
   cursor : pointer ;
 }
+@media only screen and (max-width : 900px) {
+  p{
+    font-size : 12px
+  }
+}
 /* */
 
 #display {
   height : 80vh ;
   width : 90% ;
   transform : translateY(-5%) ;
+}
+@media only screen and (max-width : 900px ){
+  #display {
+    height : 99vh ;
+    width : 99% ;
+    transform : none ;
+    -webkit-transform : none ;
+  }
 }
 #display #ca_ntainer {
   height : 93% ;
@@ -63,6 +81,13 @@ p:hover {
   justify-content: flex-start ;
   border : 1px solid var(--second-c)
 }
+@media only screen and (max-width : 900px) {
+  #menu {
+    width : 15em ;
+    height : 60vh ;
+  }
+}
+
 #menu div:nth-child(1){
   height : 10% ;
   align-items: flex-end;

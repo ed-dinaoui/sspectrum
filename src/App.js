@@ -331,6 +331,16 @@ function reg_gr () {
 }
 
 //
+/// MOBILE
+
+function is_mobile(){
+  if( navigator.userAgent.toLowerCase().match(/mobile/i) ) {
+    document.body.requestFullscreen() ;
+    screen.orientation.lock('landscape')
+  }
+}
+
+//
 /// MAIN
 
 function Container() {
@@ -349,7 +359,7 @@ function Container() {
   }
   useEffect(()=> {
     document.title = 'Sspectrum' ;
-
+    is_mobile() ;
     audioMotion = new audioMotionAnalyzer(
       get_elem('#ca_ntainer') ,
       {
