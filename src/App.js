@@ -23,24 +23,9 @@ const move_cancel = () => {
   } ;
 }
 
-var set_def_vol ;
-
-function apply_volume(e){
-  e = e || window.event;
-  e.preventDefault();
-  let pos_1 = pos_3 - e.clientX;
-  pos_3 = e.clientX;
-  let lef = v_track.offsetLeft - pos_1;
-  if (lef <= le) {
-    lef = le;
-  } else if (lef >= le + le_wi) {
-    lef = set_def_vol ;
-  }
-  $(v_track).css('left', `${lef}px`);
-  audio.volume = ((lef - le) / le_wi) * 1;
-}
 
 function adjust_volume(e) {
+  var set_def_vol ;
   e.preventDefault();
   let pos_3 = e.clientX;
   let le = v_track.parentNode.offsetLeft;
@@ -48,7 +33,20 @@ function adjust_volume(e) {
   set_def_vol = le + le_wi ;
 
   move_cancel()
-
+  const apply_volume = (e) => {
+    e = e || window.event;
+    e.preventDefault();
+    let pos_1 = pos_3 - e.clientX;
+    pos_3 = e.clientX;
+    let lef = v_track.offsetLeft - pos_1;
+    if (lef <= le) {
+      lef = le;
+    } else if (lef >= le + le_wi) {
+      lef = set_def_vol ;
+    }
+    $(v_track).css('left', `${lef}px`);
+    audio.volume = ((lef - le) / le_wi) * 1;
+  }
   document.onmousemove = apply_volume ;
   document.ontouchstart = apply_volume ;
 }
@@ -199,8 +197,9 @@ function S_upload(props){
 }
 
 function drag_mo (e) {
-  e = e || window.event;
-  e.preventDefault();
+  console.log('drag mo')
+  //e = e || window.event;
+  //e.preventDefault();
   pos_1 = pos_3 - e.clientX;
   pos_2 = pos_4 - e.clientY;
   pos_3 = e.clientX;
@@ -210,6 +209,7 @@ function drag_mo (e) {
 }
 
 const drag_mouse = (e) => {
+  console.log('drag mouse')
   e.preventDefault();
   pos_3 = e.clientX ;
   pos_4 = e.clientY ;
