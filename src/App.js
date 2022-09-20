@@ -293,12 +293,31 @@ const set_theme = () => {
   }
 }
 
+function Slide_btn () {
+  var cha  = {
+    l_ : '100%' ,
+    co_ : '>' ,
+    cc_ : '-15em' ,
+  }
+  const c_click = (e) => {
+    if ( e.target.textContent === '>' ) {
+      cha.l_ =  '95%' ; cha.co_ =   '<'  ; cha.cc_ = '0%'
+    } else {
+      cha.l_ = '100%' ; cha.co_ =  '>' ; cha.cc_ = '-15em'
+    }
+
+    $(e.target).css('left' , cha.l_)
+    $(e.target).text(cha.co_) ;
+    $(e.target.parentNode).css('left' , cha.cc_)
+  }
+  return <button onClick={c_click} >{'>'}</button>
+}
 
 function Menu(props){
   const [ w_m , set_w_m ] = useState(op_s[0]) ;
   useEffect(()=>{
     menu = get_elem('#menu') ;
-    css_var_sty = document.querySelector(':root') ;
+    css_var_sty = get_elem(':root') ;
   },[])
   const head_ps_click = (e) => {
     let cur_txt = e.currentTarget.textContent ;
@@ -313,9 +332,10 @@ function Menu(props){
     }
   }
   return (
-    <div id='menu'>
+    <div id='menu' className={ props.is ? 'menu_2' : '' } >
       <Menu_head cli={head_ps_click} />
       <Menu_content p_s={w_m} click={props.click} />
+      { props.is ? <Slide_btn /> : <div/> }
     </div>
   )
 }
@@ -385,12 +405,17 @@ function Mobile_notif(){
     }
   }
   
+  useEffect(()=>{
+    return () => {
+      screen.orientation.onchange = null
+    }
+  },[])
 
   return is_vis ? 
       <div id='mobile_notif' >
         { first_tab ? 
           (<div>
-            <p>Go Full Screen for better Experience</p>
+            <p>Go Full Screen!</p>
             <button onClick={full_screen} >Full Screen</button>
           </div>) : 
           (<div>
@@ -406,7 +431,10 @@ function Mobile_notif(){
 /// MAIN
 
 function Container() {
-  var sec_ac = {} ;
+  var sec_ac = {} , is_mobile ;
+
+  is_mobile = navigator.userAgent.toLowerCase().match(/mobile/i) ? true : false ;
+
   function handle_click(e) {
     let ac = options.find( obj => {
       return obj.name === e.target.textContent ;
@@ -434,8 +462,8 @@ function Container() {
     <div id="display">
       <div id='ca_ntainer' ></div>
       <AudioPlayer />
-      <Menu click={handle_click} />
-      { navigator.userAgent.toLowerCase().match(/mobile/i) ? <Mobile_notif /> : <div/> }
+      <Menu click={handle_click} is={is_mobile} />
+      { is_mobile ? <Mobile_notif /> : <div/> }
     </div>
   );
 }

@@ -19,7 +19,7 @@ body {
 main {
   height : 100% ;
 }
-body , div , main , p , label{
+body , div , main , p , label , button{
   width : 100% ;
   display : flex ;
   flex-direction : column ;
@@ -54,6 +54,7 @@ p:hover {
     width : 99% ;
     transform : none ;
     -webkit-transform : none ;
+    overflow-x: hidden ;
   }
 }
 #display #ca_ntainer {
@@ -74,7 +75,8 @@ p:hover {
   height : 50vh ;
   background : var(--main-c) ;
   justify-content: flex-start ;
-  border : 1px solid var(--second-c)
+  border : 1px solid var(--second-c) ;
+  transition-duration :  .3s ;
 }
 @media only screen and (max-width : 1000px) {
   #menu {
@@ -82,7 +84,26 @@ p:hover {
     height : 80vh ;
   }
 }
+.menu_2 {
+  left : -15em ;
+}
 
+#menu > button {
+  position : absolute ;
+  display : flex ;
+  height : 20% ;
+  width : 10% ;
+  background : var(--main-c) ;
+  border: 1px solid var(--second-c) ;
+  left  : 100% ;
+  top : 50% ;
+  color : var(--text) ;
+  font-size: 1em ;
+  transition-duration: .3s ;
+}
+#menu > button:active {
+  background : var(--third-c)
+}
 #menu div:nth-child(1){
   height : 10% ;
   align-items: flex-end;
