@@ -212,7 +212,7 @@ function Menu_head(props) {
     $('#men_h p').click(props.cli)
   },[])
   return(
-    <div id='men_h' onMouseDown={props.is ? drag_mouse : ''}  >
+    <div id='men_h' onMouseDown={drag_mouse}  >
       <div>
         <p>s.</p>
         <p>p.</p>
@@ -252,7 +252,7 @@ function Menu_content(props){
   })
   return (
     <div id='men_co' >
-      <p onMouseDown={ props.is ? drag_mouse : ''} >// {props.p_s.name}</p>
+      <p onMouseDown={drag_mouse} >// {props.p_s.name}</p>
       { props.p_s.up ? <S_upload add={update} /> : <div  /> }
     </div>
   )
@@ -333,8 +333,8 @@ function Menu(props){
   }
   return (
     <div id='menu' className={ props.is ? 'menu_2' : '' } >
-      <Menu_head cli={head_ps_click} is={props.is} />
-      <Menu_content p_s={w_m} click={props.click} is={props.is} />
+      <Menu_head cli={head_ps_click} />
+      <Menu_content p_s={w_m} click={props.click} />
       { props.is ? <Slide_btn /> : <div/> }
     </div>
   )
