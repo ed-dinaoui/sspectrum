@@ -3,7 +3,7 @@ import './main.css';
 import audioMotionAnalyzer from './lib/audioMotion-analyzer';
 import $ from 'jquery';
 import options , { gradients , default_options , themes , theme_properties } from './lib/options' ;
-//import default_song from './music/aether-illusion.mp3' ;
+import default_song from './music/aether-illusion.mp3' ;
 
 var audioMotion ;
 
@@ -73,7 +73,7 @@ function AudioPlayer() {
     <div id="audio_player">
       <audio
         id="audio"
-        src={'default_song'}
+        src={default_song}
         onPlay={() => {
           $(audio_btn).text(p_a) ;
           song_track = setInterval(time_bar, 500) ;
@@ -106,7 +106,7 @@ var songs = [
   {
     id : 0 ,
     name : 'Aether Illusion' ,
-    src : 'default_song'
+    src : default_song
   } ,
 ]
 
@@ -212,7 +212,7 @@ function Menu_head(props) {
     $('#men_h p').click(props.cli)
   },[])
   return(
-    <div id='men_h' onMouseDown={drag_mouse}  >
+    <div id='men_h' onMouseDown={props.is ? drag_mouse : ''}  >
       <div>
         <p>s.</p>
         <p>p.</p>
@@ -252,7 +252,7 @@ function Menu_content(props){
   })
   return (
     <div id='men_co' >
-      <p onMouseDown={drag_mouse} >// {props.p_s.name}</p>
+      <p onMouseDown={ props.is ? drag_mouse : ''} >// {props.p_s.name}</p>
       { props.p_s.up ? <S_upload add={update} /> : <div  /> }
     </div>
   )
@@ -333,8 +333,8 @@ function Menu(props){
   }
   return (
     <div id='menu' className={ props.is ? 'menu_2' : '' } >
-      <Menu_head cli={head_ps_click} />
-      <Menu_content p_s={w_m} click={props.click} />
+      <Menu_head cli={head_ps_click} is={props.is} />
+      <Menu_content p_s={w_m} click={props.click} is={props.is} />
       { props.is ? <Slide_btn /> : <div/> }
     </div>
   )

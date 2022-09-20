@@ -4,12 +4,12 @@
   box-sizing : border-box ;
 }
 :root {
-  --main-c : #343a40 ;
-  --second-c : #495057 ;
-  --third-c : #495057 ;
-  --background : #212529 ;
-  --text : #adb5bd ;
-  --txt : #495057 ;
+  --main-c : #999289 ;
+  --second-c : #262626 ;
+  --third-c : #262626 ;
+  --background : #090909 ;
+  --text : #262626 ;
+  --txt : #737373 ;
 }
 body {
   height : 100vh ;
@@ -76,7 +76,6 @@ p:hover {
   background : var(--main-c) ;
   justify-content: flex-start ;
   border : 1px solid var(--second-c) ;
-  transition-duration :  .3s ;
 }
 @media only screen and (max-width : 1000px) {
   #menu {
@@ -86,6 +85,7 @@ p:hover {
 }
 .menu_2 {
   left : -15em ;
+  transition-duration :  .3s ;
 }
 
 #menu > button {
