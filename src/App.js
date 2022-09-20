@@ -12,30 +12,27 @@ var audioMotion ;
 
 var v_track, audio ;
 
-const move_cancel = () => {
-  document.onmouseup = () => {
-    document.onmouseup = null;
-    document.onmousemove = null;
-  } ;
-  document.ontouchend = () => {
-    document.ontouchend = null;
-    document.ontouchmove = null;
-  } ;
+const end_touch = () => {
+  document.ontouchend = null;
+  document.ontouchmove = null;
+}
+const end_mouse = () => {
+  document.onmouseup = null;
+  document.onmousemove = null;
 }
 
 
 function adjust_volume(e) {
   var set_def_vol ;
-  //e.preventDefault();
+  e.preventDefault();
   let pos_3 = e.clientX;
   let le = v_track.parentNode.offsetLeft;
   let le_wi = parseFloat(getComputedStyle(v_track.parentNode).width);
   set_def_vol = le + le_wi ;
 
-  move_cancel()
   var apply_volume = (e) => {
-    //e = e || window.event;
-    //e.preventDefault();
+    e = e || window.event;
+    e.preventDefault();
     let pos_1 = pos_3 - e.clientX;
     pos_3 = e.clientX;
     let lef = v_track.offsetLeft - pos_1;
@@ -46,11 +43,14 @@ function adjust_volume(e) {
     }
     $(v_track).css('left', `${lef}px`);
     audio.volume = ((lef - le) / le_wi) * 1;
+    console.log('lef  :'+lef+'    , le :'+le+'    , volume : '+((lef - le) / le_wi) * 1)
   }
   if ( e.type === 'mousedown' ) {
     document.onmousemove = apply_volume ;
+    document.onmouseup = end_mouse ;
   } else {
     document.ontouchstart = apply_volume ;
+    document.ontouchend = end_touch ;
   }
 }
 var p_l = 'l>' , p_a = 'll' ;
@@ -201,26 +201,26 @@ function S_upload(props){
 
 
 const drag_mouse = (e) => {
-  console.log('drag mouse')
-  //e.preventDefault();
+  e.preventDefault();
   pos_3 = e.clientX ;
   pos_4 = e.clientY ;
-  move_cancel()
   var drag_mo = (e) => {
-    console.log('drag mo')
-    //e = e || window.event;
-    //e.preventDefault();
+    e = e || window.event;
+    e.preventDefault();
     pos_1 = pos_3 - e.clientX;
     pos_2 = pos_4 - e.clientY;
     pos_3 = e.clientX;
     pos_4 = e.clientY;
-    $(menu).css('top' , `${(menu.offsetTop - pos_2)}px`)
-    $(menu).css('left' , `${(menu.offsetLeft - pos_1)}px`)
+    $(menu).css('top' , `${(menu.offsetTop - pos_2)}px`) ;
+    $(menu).css('left' , `${(menu.offsetLeft - pos_1)}px`) ;
+    console.log('top  :'+(menu.offsetTop - pos_2)+'  , left  :'+(menu.offsetLeft - pos_1))
   }
   if( e.type === 'mousedown' ){
     document.onmousemove = drag_mo ;
+    document.onmouseup = end_mouse ;
   }else {
     document.ontouchmove = drag_mo ;
+    document.ontouchend = end_touch ;
   }
 }
 

@@ -192,6 +192,9 @@ label {
   height : .8em ;
   background : var(--txt) ;
 }
+#audio_player > div > .v_track > div:hover {
+  cursor : pointer
+}
 /* */
 
 #mobile_notif{
