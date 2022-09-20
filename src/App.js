@@ -12,16 +12,6 @@ var audioMotion ;
 
 var v_track, audio ;
 
-const end_touch = () => {
-  document.ontouchend = null;
-  document.ontouchmove = null;
-}
-const end_mouse = () => {
-  document.onmouseup = null;
-  document.onmousemove = null;
-}
-
-
 function adjust_volume(e) {
   var set_def_vol ;
   e.preventDefault();
@@ -30,7 +20,12 @@ function adjust_volume(e) {
   let le_wi = parseFloat(getComputedStyle(v_track.parentNode).width);
   set_def_vol = le + le_wi ;
 
-  var apply_volume = (e) => {
+  document.onmouseup = () => {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  };
+
+  document.onmousemove = (e) => {
     e = e || window.event;
     e.preventDefault();
     let pos_1 = pos_3 - e.clientX;
@@ -43,15 +38,7 @@ function adjust_volume(e) {
     }
     $(v_track).css('left', `${lef}px`);
     audio.volume = ((lef - le) / le_wi) * 1;
-    console.log('lef  :'+lef+'    , le :'+le+'    , volume : '+((lef - le) / le_wi) * 1)
-  }
-  if ( e.type === 'mousedown' ) {
-    document.onmousemove = apply_volume ;
-    document.onmouseup = end_mouse ;
-  } else {
-    document.ontouchstart = apply_volume ;
-    document.ontouchend = end_touch ;
-  }
+  };
 }
 var p_l = 'l>' , p_a = 'll' ;
 function Play_btn() {
@@ -101,7 +88,7 @@ function AudioPlayer() {
         <div className="s_track">
           <div></div>
         </div>
-        <div className="v_track" onMouseDown={adjust_volume} onTouchStart={adjust_volume} >
+        <div className="v_track" onMouseDown={adjust_volume}>
           <div></div>
         </div>
       </div>
@@ -199,29 +186,24 @@ function S_upload(props){
   )
 }
 
-
 const drag_mouse = (e) => {
   e.preventDefault();
   pos_3 = e.clientX ;
   pos_4 = e.clientY ;
-  var drag_mo = (e) => {
+  document.onmouseup = () => {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  } ;
+  document.onmousemove = (e) => {
     e = e || window.event;
     e.preventDefault();
     pos_1 = pos_3 - e.clientX;
     pos_2 = pos_4 - e.clientY;
     pos_3 = e.clientX;
     pos_4 = e.clientY;
-    $(menu).css('top' , `${(menu.offsetTop - pos_2)}px`) ;
-    $(menu).css('left' , `${(menu.offsetLeft - pos_1)}px`) ;
-    console.log('top  :'+(menu.offsetTop - pos_2)+'  , left  :'+(menu.offsetLeft - pos_1))
-  }
-  if( e.type === 'mousedown' ){
-    document.onmousemove = drag_mo ;
-    document.onmouseup = end_mouse ;
-  }else {
-    document.ontouchmove = drag_mo ;
-    document.ontouchend = end_touch ;
-  }
+    $(menu).css('top' , `${(menu.offsetTop - pos_2)}px`)
+    $(menu).css('left' , `${(menu.offsetLeft - pos_1)}px`)
+  } ;
 }
 
 
@@ -230,7 +212,7 @@ function Menu_head(props) {
     $('#men_h p').click(props.cli)
   },[])
   return(
-    <div id='men_h' onMouseDown={drag_mouse} onTouchStart={drag_mouse}  >
+    <div id='men_h' onMouseDown={drag_mouse}  >
       <div>
         <p>s.</p>
         <p>p.</p>
@@ -270,7 +252,7 @@ function Menu_content(props){
   })
   return (
     <div id='men_co' >
-      <p onMouseDown={drag_mouse} onTouchStart={drag_mouse} >// {props.p_s.name}</p>
+      <p onMouseDown={drag_mouse} >// {props.p_s.name}</p>
       { props.p_s.up ? <S_upload add={update} /> : <div  /> }
     </div>
   )
