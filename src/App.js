@@ -12,33 +12,45 @@ var audioMotion ;
 
 var v_track, audio ;
 
+const move_cancel = () => {
+  document.onmouseup = () => {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  } ;
+  document.ontouchend = () => {
+    document.ontouchend = null;
+    document.ontouchmove = null;
+  } ;
+}
+
+var set_def_vol ;
+
+function apply_volume(e){
+  e = e || window.event;
+  e.preventDefault();
+  let pos_1 = pos_3 - e.clientX;
+  pos_3 = e.clientX;
+  let lef = v_track.offsetLeft - pos_1;
+  if (lef <= le) {
+    lef = le;
+  } else if (lef >= le + le_wi) {
+    lef = set_def_vol ;
+  }
+  $(v_track).css('left', `${lef}px`);
+  audio.volume = ((lef - le) / le_wi) * 1;
+}
+
 function adjust_volume(e) {
-  var set_def_vol ;
   e.preventDefault();
   let pos_3 = e.clientX;
   let le = v_track.parentNode.offsetLeft;
   let le_wi = parseFloat(getComputedStyle(v_track.parentNode).width);
   set_def_vol = le + le_wi ;
 
-  document.onmouseup = () => {
-    document.onmouseup = null;
-    document.onmousemove = null;
-  };
+  move_cancel()
 
-  document.onmousemove = (e) => {
-    e = e || window.event;
-    e.preventDefault();
-    let pos_1 = pos_3 - e.clientX;
-    pos_3 = e.clientX;
-    let lef = v_track.offsetLeft - pos_1;
-    if (lef <= le) {
-      lef = le;
-    } else if (lef >= le + le_wi) {
-      lef = set_def_vol ;
-    }
-    $(v_track).css('left', `${lef}px`);
-    audio.volume = ((lef - le) / le_wi) * 1;
-  };
+  document.onmousemove = apply_volume ;
+  document.ontouchstart = apply_volume ;
 }
 var p_l = 'l>' , p_a = 'll' ;
 function Play_btn() {
@@ -88,7 +100,7 @@ function AudioPlayer() {
         <div className="s_track">
           <div></div>
         </div>
-        <div className="v_track" onMouseDown={adjust_volume}>
+        <div className="v_track" onMouseDown={adjust_volume} onTouchStart={adjust_volume} >
           <div></div>
         </div>
       </div>
@@ -186,24 +198,24 @@ function S_upload(props){
   )
 }
 
+function drag_mo (e) {
+  e = e || window.event;
+  e.preventDefault();
+  pos_1 = pos_3 - e.clientX;
+  pos_2 = pos_4 - e.clientY;
+  pos_3 = e.clientX;
+  pos_4 = e.clientY;
+  $(menu).css('top' , `${(menu.offsetTop - pos_2)}px`)
+  $(menu).css('left' , `${(menu.offsetLeft - pos_1)}px`)
+}
+
 const drag_mouse = (e) => {
   e.preventDefault();
   pos_3 = e.clientX ;
   pos_4 = e.clientY ;
-  document.onmouseup = () => {
-    document.onmouseup = null;
-    document.onmousemove = null;
-  } ;
-  document.onmousemove = (e) => {
-    e = e || window.event;
-    e.preventDefault();
-    pos_1 = pos_3 - e.clientX;
-    pos_2 = pos_4 - e.clientY;
-    pos_3 = e.clientX;
-    pos_4 = e.clientY;
-    $(menu).css('top' , `${(menu.offsetTop - pos_2)}px`)
-    $(menu).css('left' , `${(menu.offsetLeft - pos_1)}px`)
-  } ;
+  move_cancel()
+  document.onmousemove = drag_mo ;
+  document.ontouchmove = drag_mo ;
 }
 
 
@@ -212,7 +224,7 @@ function Menu_head(props) {
     $('#men_h p').click(props.cli)
   },[])
   return(
-    <div id='men_h' onMouseDown={drag_mouse}  >
+    <div id='men_h' onMouseDown={drag_mouse} onTouchStart={drag_mouse}  >
       <div>
         <p>s.</p>
         <p>p.</p>
@@ -252,7 +264,7 @@ function Menu_content(props){
   })
   return (
     <div id='men_co' >
-      <p onMouseDown={drag_mouse} >// {props.p_s.name}</p>
+      <p onMouseDown={drag_mouse} onTouchStart={drag_mouse} >// {props.p_s.name}</p>
       { props.p_s.up ? <S_upload add={update} /> : <div  /> }
     </div>
   )
