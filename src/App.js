@@ -26,16 +26,16 @@ const move_cancel = () => {
 
 function adjust_volume(e) {
   var set_def_vol ;
-  e.preventDefault();
+  //e.preventDefault();
   let pos_3 = e.clientX;
   let le = v_track.parentNode.offsetLeft;
   let le_wi = parseFloat(getComputedStyle(v_track.parentNode).width);
   set_def_vol = le + le_wi ;
 
   move_cancel()
-  const apply_volume = (e) => {
-    e = e || window.event;
-    e.preventDefault();
+  var apply_volume = (e) => {
+    //e = e || window.event;
+    //e.preventDefault();
     let pos_1 = pos_3 - e.clientX;
     pos_3 = e.clientX;
     let lef = v_track.offsetLeft - pos_1;
@@ -47,8 +47,11 @@ function adjust_volume(e) {
     $(v_track).css('left', `${lef}px`);
     audio.volume = ((lef - le) / le_wi) * 1;
   }
-  document.onmousemove = apply_volume ;
-  document.ontouchstart = apply_volume ;
+  if ( e.type === 'mousedown' ) {
+    document.onmousemove = apply_volume ;
+  } else {
+    document.ontouchstart = apply_volume ;
+  }
 }
 var p_l = 'l>' , p_a = 'll' ;
 function Play_btn() {
@@ -196,26 +199,29 @@ function S_upload(props){
   )
 }
 
-function drag_mo (e) {
-  console.log('drag mo')
-  //e = e || window.event;
-  //e.preventDefault();
-  pos_1 = pos_3 - e.clientX;
-  pos_2 = pos_4 - e.clientY;
-  pos_3 = e.clientX;
-  pos_4 = e.clientY;
-  $(menu).css('top' , `${(menu.offsetTop - pos_2)}px`)
-  $(menu).css('left' , `${(menu.offsetLeft - pos_1)}px`)
-}
 
 const drag_mouse = (e) => {
   console.log('drag mouse')
-  e.preventDefault();
+  //e.preventDefault();
   pos_3 = e.clientX ;
   pos_4 = e.clientY ;
   move_cancel()
-  document.onmousemove = drag_mo ;
-  document.ontouchmove = drag_mo ;
+  var drag_mo = (e) => {
+    console.log('drag mo')
+    //e = e || window.event;
+    //e.preventDefault();
+    pos_1 = pos_3 - e.clientX;
+    pos_2 = pos_4 - e.clientY;
+    pos_3 = e.clientX;
+    pos_4 = e.clientY;
+    $(menu).css('top' , `${(menu.offsetTop - pos_2)}px`)
+    $(menu).css('left' , `${(menu.offsetLeft - pos_1)}px`)
+  }
+  if( e.type === 'mousedown' ){
+    document.onmousemove = drag_mo ;
+  }else {
+    document.ontouchmove = drag_mo ;
+  }
 }
 
 
